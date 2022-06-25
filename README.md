@@ -10,7 +10,11 @@ I bought a cheap USB soundcard and a microphone and am running it on a raspberry
 
 ## Installation on a raspberry
 This program requires a few libraries. 
-libpaho-mqtt was not available on my distribution and had to be downloaded and compile, your milage may vary. Just install libssl-dev, download it and run `make` and `make install` if not available.
+libpaho-mqtt was not available on my distribution and had to be downloaded and compiled, your milage may vary. Just install libssl-dev, download libpaho-mqtt and run `make` and `make install` if not available.
+Libpaho is found here: 
+
+`git clone https://github.com/eclipse/paho.mqtt.c`
+
 
 I am assuming a debian based distribution. Install prerequisites as root, if you are not root, prepend `sudo` to the commands below. Example from Ubuntu 21.10.
 
@@ -90,7 +94,7 @@ Download and compile as stated above.
 Set mode to 'sense' in config file. The program will print indefinitely until killed with for example ctrl-c. It takes a while to start due to some initializations. It will print a line when ready.
 It might be easier to redirect output to a file, for example:
 
-`./beep2mqtt -c b2mqtt.conf > outdata.txt`
+`./beep2mqtt -c b2mqtt_conf.json > outdata.txt`
 
 Press ctrl-c when you are done.
 Sort the data and have a look.
@@ -121,13 +125,15 @@ A typical output when I run this and press the test button on the smoke detector
 [2270] 59316031.2  3055.0Hz
 
 ```
-The value in [] are the bucket number. Next value is the magnitude. Lastly is the frequency, just for information. We can see here that there is something going on around bucket 2270. For some margin I set buckets to 2268-2271 with a magnitude of 1M. If you encounter false positives try to either increase magnitude or narrow bucket span. I have never had music blasting on full volume trigger the alarm, but anything is possible. Update the config. 
+The values in [] are the bucket number. Next value is the magnitude. Lastly is the frequency, just for information. We can see here that there is something going on around bucket 2270. For some margin I set buckets to 2268-2271 with a magnitude of 1M. If you encounter false positives try to either increase magnitude or narrow bucket span. I have never had music blasting on full volume trigger the alarm, but anything is possible. Update the config. I edit 'b2mqtt_conf.json and change `boi_high` to 2271 and `boi_low` to 2268. I leave `boi_mag` at 1M for safety margin. 
 
 ### Test
-Start beep2mqtt in verbose mode to see what happens:
+Correct all fields in configuration file, change 'mode' to 'sample'.
+Start beep2mqtt in verbose mode to see what happens when triggering the alarm sound:
 
 `./beep2mqtt -c b2mqtt_conf.json -v`
-A typical output that works will look like this:
+
+A typical output that works will look like this when pressing the detector test button:
 ```
 mqtt connected
 Detection: magnitude 2072463   total in queue 1
@@ -180,4 +186,4 @@ binary_sensor:
     device_class: smoke
 ```
 # Final words
-I hope this software may benefit you somehow. Personally I hope that this was all a waste of time and it shall never hear a smoke detector going off. I have never interacted with soundcards before. It's tested on three separate hardwares, I would not be surprised if I have done something stupid and it breaks for you. If so, please let me know. Good luck, I hope you'll have no fires. 
+I hope this software may benefit you somehow. Personally I hope that this was all a waste of time and it shall never hear a smoke detector going off. I have never interacted with soundcards before. It's tested on three separate hardwares, I would not be surprised if I have done something stupid and it breaks for you. If so, please let me know. Good luck, I hope you'll have no fires. I'm thinking of using it to whistle to turn on the lights...
