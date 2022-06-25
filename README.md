@@ -180,4 +180,4 @@ binary_sensor:
     device_class: smoke
 ```
 # Final words
-I hope this software bay benefit you somehow. Personally I hope that this was all a waste of time and it shall never hear a smoke detector going off. I have never interacted with soundcards before. It's tested on three separate hardwares, I would not be surprised if I have done something stupid and it breaks for you. If so, please let me know. Good luck, I hope you'll have no fires. 
+I hope this software may benefit you somehow. Personally I hope that this was all a waste of time and it shall never hear a smoke detector going off. I have never interacted with soundcards before. It's tested on three separate hardwares, I would not be surprised if I have done something stupid and it breaks for you. If so, please let me know. Good luck, I hope you'll have no fires. 
