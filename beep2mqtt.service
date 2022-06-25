@@ -1,0 +1,10 @@
+[Unit]
+Description=Beep to MQTT
+After=network-online.target
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/local/sbin/beep2mqtt -c "/etc/b2mqtt_conf.json"
+TimeoutStopSec=5
+[Install]
+WantedBy=multi-user.target

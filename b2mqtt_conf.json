@@ -1,0 +1,19 @@
+{
+	"read_siz": 32768,
+	"sample_rate": 44100,
+	"boi_low": 2260,
+	"boi_high": 2265,
+	"boi_mag": 1000000,
+	"hitlist_siz": 5,
+	"hit_trig": 5,
+	"ttl": 5,
+	"device": "hw:1,0",
+	"mode": "sense",
+	"mqtt_srv": "tcp://<ip address>:<port, usually 1883>",
+	"mqtt_pw": "password",
+	"mqtt_user": "username",
+	"mqtt_topic": "mancave/smoke",
+	"mqtt_on_msg": "smoke",
+	"mqtt_off_msg": "clear",
+	"mqtt_tele_ival": 60
+}
