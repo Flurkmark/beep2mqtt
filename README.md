@@ -83,13 +83,13 @@ The program can run in three different modes.
   - `sense` mode will print a list of the highest scoring buckets and its magnitude for each sample. Used to find your specific boi_low and boi_high and boi_mag for your specific use case. The default is what my cheap smoke detector happens to be. You are totally excused for using this mode while screaming, whistling and singing to view your beautiful frequencies.
 - `mqtt_srv` IP address of your mqtt server.
 - `mqtt_pw` mqtt password.
-- `mqtt_user`mqtt username.
-- `mqtt_topic`topic to publish on. 
+- `mqtt_user` mqtt username.
+- `mqtt_topic` topic to publish on. 
 - `mqtt_on_msg` Message to publish in topic if enough hits exist in hitlist, i.e. sound the alarm. 
-- `mqtt_off_msg`Message to publish in topic when conditions are no longer met, i.e. alarm off.
+- `mqtt_off_msg` Message to publish in topic when conditions are no longer met, i.e. alarm off.
 - `mqtt_tele_ival` Send status periodically to keep for example Home Assistant happy.
 ## Figuring out buckets and magnitudes
-### Find the bucketsand magnitude
+### Find the buckets and magnitude
 Download and compile as stated above. 
 Set mode to 'sense' in config file. The program will print indefinitely until killed with for example ctrl-c. It takes a while to start due to some initializations. It will print a line when ready.
 It might be easier to redirect output to a file, for example:
