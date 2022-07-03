@@ -10,10 +10,14 @@
 	"device": "hw:1,0",
 	"mode": "sense",
 	"mqtt_srv": "tcp://<ip address>:<port, usually 1883>",
+	"mqtt_id" : "client-id",
 	"mqtt_pw": "password",
 	"mqtt_user": "username",
 	"mqtt_topic": "mancave/smoke",
 	"mqtt_on_msg": "smoke",
 	"mqtt_off_msg": "clear",
+	"mqtt_status_topic" : "mancave/smoke/status",
+	"mqtt_online_msg" : "online",
+	"mqtt_offline_msg" : "offline",
 	"mqtt_tele_ival": 60
 }

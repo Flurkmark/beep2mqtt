@@ -39,22 +39,26 @@ A sample file called `b2mqtt_conf.json' is provided.
 It looks like this:
 ```
 {
-        "read_siz": 32768,
-        "sample_rate" : 44100,
-        "boi_low" : 2292,
-        "boi_high" : 2294,
-        "boi_mag" : 1000000,
-        "hit_trig" : 5,
-        "ttl" : 5,
-        "device" : "hw:1,0",
-        "mode" : "sense", 
-        "mqtt_srv" : "tcp://127.0.0.1:1883",
-        "mqtt_pw" : "password",
-        "mqtt_user" : "username",
-        "mqtt_topic" : "mancave/smoke",
-        "mqtt_on_msg" : "smoke",
-        "mqtt_off_msg" : "clear",
-        "mqtt_tele_ival" : 60
+    "read_siz": 32768,
+    "sample_rate" : 44100,
+    "boi_low" : 2292,
+    "boi_high" : 2294,
+    "boi_mag" : 1000000,
+    "hit_trig" : 5,
+    "ttl" : 5,
+    "device" : "hw:1,0",
+    "mode" : "sense", 
+    "mqtt_srv" : "tcp://127.0.0.1:1883",
+    "mqtt_id" : "client-id",
+    "mqtt_pw": "password",
+    "mqtt_user": "username",
+    "mqtt_topic": "mancave/smoke",
+    "mqtt_on_msg": "smoke",
+    "mqtt_off_msg": "clear",
+    "mqtt_status_topic" : "mancave/smoke/status",
+    "mqtt_online_msg" : "online",
+    "mqtt_offline_msg" : "offline",
+    "mqtt_tele_ival": 60
 
 }
 ```
@@ -82,11 +86,15 @@ The program can run in three different modes.
   - `write` mode write dumps incoming audio to a file called `testsound.pcm`. Use this if you need to verity that the microphone and soundcard are working and providing a clean sound.
   - `sense` mode will print a list of the highest scoring buckets and its magnitude for each sample. Used to find your specific boi_low and boi_high and boi_mag for your specific use case. The default is what my cheap smoke detector happens to be. You are totally excused for using this mode while screaming, whistling and singing to view your beautiful frequencies.
 - `mqtt_srv` IP address of your mqtt server.
+- `mqtt_id` Client id.
 - `mqtt_pw` mqtt password.
 - `mqtt_user` mqtt username.
 - `mqtt_topic` topic to publish on. 
 - `mqtt_on_msg` Message to publish in topic if enough hits exist in hitlist, i.e. sound the alarm. 
 - `mqtt_off_msg` Message to publish in topic when conditions are no longer met, i.e. alarm off.
+- `mqtt_status_topic` Topic for LWT and online/offline status.
+- `mqtt_online_msg` Online status message.
+- `mqtt_offline_msg` Offline status message.
 - `mqtt_tele_ival` Send status periodically to keep for example Home Assistant happy.
 ## Figuring out buckets and magnitudes
 ### Find the buckets and magnitude
@@ -184,6 +192,10 @@ binary_sensor:
     payload_on: "smoke"
     payload_off: "clear"
     device_class: smoke
+    availability_topic: "mancave/smoke/status"
+    payload_available: "online"
+    payload_not_available: "offline" 
+
 ```
 # Final words
 I hope this software may benefit you somehow. Personally I hope that this was all a waste of time and it shall never hear a smoke detector going off. I have never interacted with soundcards before. It's tested on three separate hardwares, I would not be surprised if I have done something stupid and it breaks for you. If so, please let me know. Good luck, I hope you'll have no fires. I'm thinking of using it to whistle to turn on the lights...

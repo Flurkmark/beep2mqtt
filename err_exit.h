@@ -12,15 +12,15 @@
 /* short hand name, that prepends filename and line number */ 
 /* the ## before args, removes preceding non whitespace if args is empty */ 
 #define EE(format, args...) \
-err_exit(1, "%s:%d: " format ,__FILE__, __LINE__, ##args)
+err_exit(1, LOG_ERR, "%s:%d: " format ,__FILE__, __LINE__, ##args)
 
-#define err_warn(format, args...) \
-err_exit(0, format, ##args)
 
 #define EW(format, args...) \
-err_exit(0, "%s:%d: " format ,__FILE__, __LINE__, ##args)
+err_exit(0, LOG_WARNING, "%s:%d: " format ,__FILE__, __LINE__, ##args)
 
+// EI.. error info, not my most clever name
+#define EI(format, args...) \
+    err_exit(0, LOG_INFO, "%s:%d: " format, __FILE__, __LINE__, ##args)
 
-
-void err_exit(int, char *, ...);
+void err_exit(int, int, char *, ...);
 #endif

@@ -14,6 +14,7 @@
 #include "cJSON.h"
 #include <pthread.h>
 #include <getopt.h>
+#include <signal.h>
 #define MONO 0
 #define STEREO 2
 
@@ -25,11 +26,15 @@ typedef struct ops
 {
     char *device;
     char *mqtt_srv;
+    char *mqtt_id;
     char *mqtt_pw;
     char *mqtt_user;
     char *mqtt_topic;
     char *mqtt_on_msg;
     char *mqtt_off_msg;
+    char *mqtt_status_topic;
+    char *mqtt_online_msg;
+    char *mqtt_offline_msg;
     int mqtt_tele_ival;
     int read_siz;
     int sample_rate;
@@ -42,6 +47,7 @@ typedef struct ops
     int hit_trig;
     int alarm;
     int verbose;
+    int terminate;
 
 } ops;
 struct bucket_list
@@ -63,7 +69,9 @@ static int compare_bucket_list(const void *, const void *);
 int msg_arrived(void *, char *, int , MQTTAsync_message *);
 void cb_con_fail(void * , MQTTAsync_failureData *);
 void cb_con_success(void *, MQTTAsync_successData *);
-void send_mqtt(MQTTAsync *, char *);
+void cb_con_fail(void *, MQTTAsync_failureData *);
+void cb_disco_fail(void *, MQTTAsync_failureData *);
+void send_mqtt(MQTTAsync *, char *, char *);
 void setup_mqtt(MQTTAsync *, MQTTAsync_connectOptions *);
 int setup_scap(snd_pcm_t **, snd_pcm_uframes_t *, char *, int);
 void write_raw(snd_pcm_t *, unsigned char *, int, int, int);
@@ -72,5 +80,5 @@ int sample_fft(snd_pcm_t *, double *,fftw_complex *, fftw_plan *, unsigned char 
 void do_sample(snd_pcm_t *, double *, fftw_complex *,fftw_plan *, unsigned char *, int, int);
 void do_sense(snd_pcm_t *, double *, fftw_complex *,fftw_plan *, unsigned char *, int, int);
 void do_write_raw(snd_pcm_t *, unsigned char *, int, int);
-void *do_mqtt(void *);
-
+void * do_mqtt(void *);
+void * signal_handler(void *);
